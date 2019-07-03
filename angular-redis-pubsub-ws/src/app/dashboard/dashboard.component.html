@@ -1,0 +1,12 @@
+<p>
+  dashboard works!
+</p>
+<div>
+  <span class="id-text">ID:</span
+  ><select class="id-select" (change)="onSelect($event)"
+    ><option *ngFor="let val of getIds()" [value]="val.id"> {{ val.name }}{{ val.id }}</option></select
+  >
+  <button class="connect-btn" (click)="connect()"><span class="connect-text">Connect</span></button>
+  <button class="connect-btn" (click)="disconnect()"><span class="connect-text">Disconnect</span></button>
+</div>
+<div class="message">{{ message }}</div>
