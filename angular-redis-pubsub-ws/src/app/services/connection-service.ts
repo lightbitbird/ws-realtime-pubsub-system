@@ -6,7 +6,7 @@ import { reject } from 'q';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConnectionService {
   private serviceCd = 'svc';
@@ -17,7 +17,9 @@ export class ConnectionService {
 
   async connect(id: number): Promise<any> {
     return new Promise((resolve, reject) => {
-      const account: Account = this.accounts.find(a => Number(a.id) === Number(id));
+      const account: Account = this.accounts.find(
+        a => Number(a.id) === Number(id)
+      );
       this.currentId = account.id;
       if (!account) {
         alert('Invalid account');
@@ -27,7 +29,7 @@ export class ConnectionService {
       this.socketService.connect({
         serviceCd: this.serviceCd,
         roomId: this.roomId,
-        accountId: account.id
+        accountId: account.id,
       });
       resolve(account);
     }).then((res: Account) => {

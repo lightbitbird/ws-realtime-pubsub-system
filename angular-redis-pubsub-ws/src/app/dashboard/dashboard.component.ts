@@ -4,7 +4,7 @@ import { ConnectionService } from '../services/connection-service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
   ids: any[] = [];
@@ -14,10 +14,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     Array.from(Array(10).keys()).forEach(i => {
-      console.log('array count: ', i + 1);
       const select = { id: i + 1, name: 'id' };
       this.ids.push(select);
     });
+    this.selected = this.ids[0].id;
   }
 
   onClick() {

@@ -9,7 +9,7 @@ export declare interface SocketRoom {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SocketService {
   private host = 'http://localhost';
@@ -20,16 +20,20 @@ export class SocketService {
 
   connect(room: SocketRoom) {
     this.socketio = io.connect(this.rsUrl, {
-      query: { serviceCd: room.serviceCd, roomId: room.roomId, accountId: room.accountId }
+      query: {
+        serviceCd: room.serviceCd,
+        roomId: room.roomId,
+        accountId: room.accountId,
+      },
     });
     this.socketio.on('connect', () => {
-      console.log(`${room.serviceCd}${room.roomId}${room.accountId}`, ' connected.');
+      console.log(
+        `${room.serviceCd}${room.roomId}${room.accountId}`,
+        ' connected.'
+      );
     });
     this.socketio.on('reconnect', () => {
       console.log('reconnect.');
-    });
-    this.socketio.on('error', (e: Error) => {
-      console.log('error: ', e);
     });
     this.socketio.on('disconnect', e => {
       console.log('disconnected: ', e);
