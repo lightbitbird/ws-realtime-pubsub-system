@@ -4,15 +4,17 @@ var app = express();
 const config = { pingTimeout: 60000 };
 var http = require('http').Server(app);
 const io = require('socket.io', config)(http);
-const PORT = process.env.PORT || 7000;
-var subscriber = require('redis').createClient(6379, '127.0.0.1');
+const host = process.env.ENV_HOST || '127.0.0.1';
+const port = process.env.SYNC_PORT || 7000;
+const redis_port = process.env.REDIS_PORT || 6379;
+var subscriber = require('redis').createClient(redis_port, host);
 var serverErrorKey = 'error';
 
-http.listen(PORT, function() {
-  console.log('server listening. Port: ' + PORT);
+http.listen(port, function() {
+  console.log('server listening. Port: ' + port);
 });
 
-listen = () => {
+const listen = () => {
   io.on('connection', function(socket) {
     console.log('connected');
 
@@ -57,6 +59,7 @@ listen = () => {
           );
         })
         .catch(e => {
+          console.log(e);
           io.to(socket.id).emit(serverErrorKey, `Server Error!`);
           // io.to('error').emit(channel, `Server Error!`);
           // socket.disconnect();

@@ -1,7 +1,7 @@
 var RestClient = require('node-rest-client').Client;
 var client = new RestClient();
-var host = 'localhost';
-var port = 3000;
+const host = process.env.ENV_HOST || 'localhost';
+const port = process.env.MODULE_PORT || 3000;
 var endpoint = `http://${host}:${port}`;
 
 module.exports.startStreaming = (_svcCd, _roomId, _accountId) => {
@@ -10,13 +10,13 @@ module.exports.startStreaming = (_svcCd, _roomId, _accountId) => {
       endpoint,
       {
         headers: {
-          'Content-type': 'application/json'
+          'Content-type': 'application/json',
         },
         parameters: {
           serviceCd: _svcCd,
           roomId: _roomId,
-          accountId: _accountId
-        }
+          accountId: _accountId,
+        },
       },
       function(data, res) {
         console.log(

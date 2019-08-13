@@ -12,9 +12,9 @@ export declare interface SocketRoom {
   providedIn: 'root',
 })
 export class SocketService {
-  private host = 'http://localhost';
-  private port = 7000;
-  private rsUrl = `${this.host}:${this.port}`;
+  private host = process.env.ENV_HOST || 'localhost'
+  private port = process.env.SYNC_PORT || 7000;
+  private rsUrl = `http://${this.host}:${this.port}`;
   private socketio: SocketIOClient.Socket;
   constructor() {}
 

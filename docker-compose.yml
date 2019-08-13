@@ -1,0 +1,46 @@
+version: '3'
+services:
+  redis:
+    image: redis:4.0.14-alpine
+    ports:
+      - 6379:$REDIS_PORT
+    volumes:
+      - .docker/redis/data:/data
+    restart: unless-stopped
+  app:
+    build: angular-redis-pubsub-ws/
+    container_name: 'app'
+    ports:
+      - 4200:$APP_PORT
+    environment:
+      - TZ='Asia/Tokyo'
+      - REDIS_PORT=${REDIS_PORT}
+      - ENV_HOST=${ENV_HOST}
+      - APP_PORT=${APP_PORT}
+      - SYNC_PORT=${SYNC_PORT}
+    command: ng serve --host 0.0.0.0
+  module:
+    build: module-server/
+    container_name: 'module'
+    ports:
+      - $MODULE_PORT:$MODULE_PORT
+    links:
+      - redis
+    environment:
+      - ENV_HOST=${ENV_HOST}
+      - MODULE_PORT=${MODULE_PORT}
+      - REDIS_PORT=${REDIS_PORT}
+  sync:
+    build: realtime-server/
+    container_name: 'sync'
+    ports:
+      - $SYNC_PORT:$SYNC_PORT
+    links:
+      - module
+      - redis
+    environment:
+      - ENV_HOST=${ENV_HOST}
+      - SYNC_PORT=${SYNC_PORT}
+      - MODULE_PORT=${MODULE_PORT}
+      - REDIS_PORT=${REDIS_PORT}
+
