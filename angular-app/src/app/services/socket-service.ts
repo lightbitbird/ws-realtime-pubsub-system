@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
+import * as process from 'process';
 
 export declare interface SocketRoom {
   serviceCd: string;
@@ -12,7 +13,7 @@ export declare interface SocketRoom {
   providedIn: 'root',
 })
 export class SocketService {
-  private host = process.env.ENV_HOST || 'localhost'
+  private host = process.env.ENV_HOST || 'localhost';
   private port = process.env.SYNC_PORT || 7000;
   private rsUrl = `http://${this.host}:${this.port}`;
   private socketio: SocketIOClient.Socket;
