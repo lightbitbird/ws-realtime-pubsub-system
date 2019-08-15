@@ -12,12 +12,4 @@ RUN yarn install
 
 COPY ./ /app/
 
-RUN yarn run build --output-path=./dist/out
-
-FROM nginx:alpine
-
-COPY nginx.conf /etc/nginx/nginx.conf
-
-RUN rm -rf /usr/share/nginx/html/*
-
-COPY --from=builder /app/dist/out /usr/share/nginx/html
+EXPOSE 4200
