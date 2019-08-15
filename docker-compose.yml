@@ -18,9 +18,21 @@ services:
       - APP_PORT=${APP_PORT}
       - SYNC_PORT=${SYNC_PORT}
     ports:
-      - $APP_PORT:80
+      - 4200:4200
+    command: 'ng serve --host 0.0.0.0 --disableHostCheck'
     links:
       - sync
+    networks:
+      - realtime-ws-network
+
+  nginx:
+    container_name: nginx
+    build: nginx/
+    ports:
+      - $APP_PORT:80
+      - '443:443'
+    links:
+      - app
     networks:
       - realtime-ws-network
 
